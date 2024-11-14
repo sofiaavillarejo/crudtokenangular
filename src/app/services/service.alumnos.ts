@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Alumno } from "../models/Alumno";
 import { environment } from "../../environments/environment.development";
 import axios from "axios";
+import { AlumnoData } from "../models/AlumnoData";
 
 @Injectable()
 export class ServiceAlumnos {
@@ -33,7 +34,10 @@ export class ServiceAlumnos {
     return axios.get(url, {headers}).then(response => response.data)
   }
 
-  // createAlumno(alumno: Alumno): Promise<any>{
-
-  // }
+  createAlumno(alumno: AlumnoData): Promise<any>{
+    const token = localStorage.getItem('token');
+    const url = `${environment.urlApi}/api/alumnos/insertalumnotoken`;
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return axios.post(url, alumno, {headers}).then(response => response.data)
+  }
 }
